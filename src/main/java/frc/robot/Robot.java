@@ -11,11 +11,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 
 
@@ -31,8 +28,6 @@ public class Robot extends TimedRobot {
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
-  private static Encoder encoder;
-  private static DifferentialDrive driveTrain;
   // Constants (ports, etc...)
 	private static final int DRIVER_CONTROLLER = 0;
 	private static final int LEFT_DRIVE_MOTOR = 0;
@@ -44,6 +39,7 @@ private Navigation navigation;
 // - init encoders
 public Encoder encLeft = new Encoder(0, 1);
 public Encoder encRight = new Encoder(2, 3);
+
 //Turining//
 boolean turning = false;
 
