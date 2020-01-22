@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 
 
 /**
@@ -34,7 +36,8 @@ public class Robot extends TimedRobot {
 	private static final int RIGHT_DRIVE_MOTOR = 1;
 // objects (controllers, sparks, talons, etc....)
 private XboxController driver;
-
+public CameraServer RobotCamera;
+public UsbCamera frontRobotCamera;
 private Navigation navigation;
 // - init encoders
 public Encoder encLeft = new Encoder(0, 1);
@@ -61,7 +64,8 @@ boolean turning = false;
     DifferentialDrive driveTrain = new DifferentialDrive(leftDrive, rightDrive);
     // init subsystems
     this.navigation = new Navigation(driveTrain, encLeft, encRight);		
-
+    RobotCamera = CameraServer.getInstance();
+    frontRobotCamera = RobotCamera.startAutomaticCapture(0);
   }
 
   /**
@@ -74,9 +78,18 @@ boolean turning = false;
    */
   @Override
   public void robotPeriodic() {
+    int rawLeft = encLeft.getRaw();
+    int scaledLeft = encLeft.get();
+    int rawRight = encRight.getRaw();
+    int scaledRight = encRight.get();
+
     if (!turning) {
 			this.navigation.arcade(driver.getRawAxis(Controller.XBOX.STICK.LEFT.X), driver.getRawAxis(Controller.XBOX.STICK.LEFT.Y));
-		}
+    }
+    SmartDashboard.putNumber("Left Encoder (Raw)", rawLeft);
+    SmartDashboard.putNumber("Left Encoder", scaledLeft);
+    SmartDashboard.putNumber("Right Encoder (Raw)", rawRight);
+    SmartDashboard.putNumber("Right Encoder", scaledRight);
   }
 
   /**
